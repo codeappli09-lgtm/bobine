@@ -1,6 +1,7 @@
 """Transcription mot à mot d'une vidéo (faster-whisper, gratuit, sur le processeur)."""
 from __future__ import annotations
 
+import gc
 import json
 import threading
 from pathlib import Path
@@ -38,6 +39,13 @@ def _model():
         return _MODEL
 
 
+def release_model() -> None:
+    global _MODEL
+    with _MODEL_LOCK:
+        _MODEL = None
+    gc.collect()
+
+
 def transcribe(video: Path, workdir: Path, progress: Callable[[float, str], None]) -> dict:
     """Renvoie {duration, language, segments:[{start,end,text,words:[{text,start,end}]}]}.
     Le résultat est gardé dans workdir/transcription.json pour ne pas recommencer."""
@@ -73,6 +81,7 @@ def transcribe(video: Path, workdir: Path, progress: Callable[[float, str], None
         progress(done, f"Transcription : {int(seg.end // 60)} min {int(seg.end % 60):02d} "
                        f"sur {int(total // 60)} min {int(total % 60):02d}")
     audio.unlink(missing_ok=True)
+    release_model()  # rend la mémoire pour Qwen et le montage
     if not segments:
         raise TranscribeError("Aucune parole détectée dans cette vidéo.")
     data = {"model": config.WHISPER_MODEL, "language": info.language,

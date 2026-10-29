@@ -49,7 +49,10 @@ def chat(system: str, user: str, temperature: float = 0.8, want_json: bool = Tru
             ],
             "stream": False,
             "think": False,
-            "options": {"temperature": temperature, "num_ctx": 8192},
+            # Libère la mémoire dès la réponse : la machine gratuite n'a que 8 Go,
+            # à partager avec la transcription et ffmpeg.
+            "keep_alive": 0,
+            "options": {"temperature": temperature, "num_ctx": 4096},
         }
         if want_json:
             payload["format"] = "json"
