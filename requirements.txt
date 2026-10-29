@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn>=0.29
+requests>=2.31
+beautifulsoup4>=4.12
+trafilatura>=1.8
+edge-tts>=7.0
+pillow>=10.0
+faster-whisper>=1.0
+# OpenCV 5 ne fournit plus le détecteur de visage utilisé : rester en version 4
+opencv-python-headless>=4.8,<5

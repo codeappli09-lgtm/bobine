@@ -1,0 +1,4 @@
+Pour une grosse vidéo (plus de quelques centaines de Mo), glisse-la directement
+dans ce dossier depuis l'explorateur de fichiers du Codespace (panneau de gauche).
+Elle apparaîtra ensuite dans Bobine, onglet « Redécouper une vidéo »,
+dans la liste « Ou reprends une vidéo déjà envoyée ».

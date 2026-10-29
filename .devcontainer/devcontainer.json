@@ -1,0 +1,26 @@
+{
+  "name": "Bobine",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb"
+  },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash start.sh --fond",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Bobine",
+      "onAutoForward": "openBrowser"
+    },
+    "11434": {
+      "label": "Ollama (Qwen)",
+      "onAutoForward": "silent"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"]
+    }
+  }
+}

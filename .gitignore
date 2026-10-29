@@ -1,0 +1,8 @@
+.env
+output/
+sources/
+logs/
+a-decouper/*
+!a-decouper/LISEZMOI.txt
+__pycache__/
+*.pyc
