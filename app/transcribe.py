@@ -81,6 +81,7 @@ def transcribe(video: Path, workdir: Path, progress: Callable[[float, str], None
         progress(done, f"Transcription : {int(seg.end // 60)} min {int(seg.end % 60):02d} "
                        f"sur {int(total // 60)} min {int(total % 60):02d}")
     audio.unlink(missing_ok=True)
+    del model, segments_iter
     release_model()  # rend la mémoire pour Qwen et le montage
     if not segments:
         raise TranscribeError("Aucune parole détectée dans cette vidéo.")
