@@ -3,11 +3,11 @@
 set -e
 cd "$(dirname "$0")/.."
 
-echo "▶ Outils vidéo et voix de secours (ffmpeg, espeak-ng)"
+echo "▶ Outils vidéo, voix de secours et décompression (ffmpeg, espeak-ng, zstd)"
 # L'image de base contient un dépôt Yarn dont la clé a expiré : il bloque apt.
 sudo grep -l yarnpkg /etc/apt/sources.list.d/* 2>/dev/null | xargs -r sudo rm -f
 sudo apt-get update -q || echo "⚠ Certains dépôts apt sont injoignables, on continue."
-sudo apt-get install -y -q ffmpeg espeak-ng
+sudo apt-get install -y -q ffmpeg espeak-ng zstd  # zstd : requis par l'installeur d'Ollama
 
 echo "▶ Bibliothèques Python"
 pip install --no-cache-dir -r requirements.txt
