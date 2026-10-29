@@ -127,6 +127,9 @@ def write_script(source: Source, duration: int = 45, tone: str = "choc",
             try:
                 raw = llm.chat(SYSTEM, prompt, temperature=0.8 if attempt == 0 else 0.5)
                 script = normalize(llm.parse_json(raw), fallback_title=source.title)
+                if len(script["segments"]) < 3:
+                    raise llm.LLMError(
+                        f"le modèle n'a écrit que {len(script['segments'])} plan(s)")
                 script["mode"] = "ia"
                 break
             except llm.LLMError as exc:

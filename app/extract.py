@@ -46,10 +46,25 @@ def is_url(value: str) -> bool:
     return bool(URL_RE.match(value.strip()))
 
 
+VIDEO_HOSTS = ("tiktok.com", "youtube.com", "youtu.be", "instagram.com", "vimeo.com",
+               "dailymotion.com", "twitch.tv", "fb.watch")
+
+
+def is_video_platform(url: str) -> bool:
+    host = urlparse(url).netloc.lower().split(":")[0]
+    return any(host == h or host.endswith("." + h) for h in VIDEO_HOSTS)
+
+
 def from_input(value: str) -> Source:
     value = value.strip()
     if not value:
         raise ValueError("Colle un lien ou écris une idée de vidéo.")
+    if is_url(value) and is_video_platform(value):
+        raise ValueError(
+            "C'est un lien de vidéo (TikTok, YouTube…) : Bobine ne peut pas récupérer la vidéo "
+            "elle-même, seulement le texte d'une page. Pour redécouper une de tes vidéos, "
+            "télécharge-la puis utilise l'onglet « Depuis une vidéo ». Pour faire une vidéo sur "
+            "le même sujet, décris l'idée en quelques phrases ici à la place du lien.")
     if is_url(value):
         return fetch_url(value)
     return Source(kind="idee", title="", text=value)

@@ -122,6 +122,10 @@ def _run_script(job_id: str, req: ScriptRequest) -> None:
         except llm.LLMError as exc:
             script = scriptgen.write_script(source, req.duree, req.ton, req.cta, use_ai=False)
             note = f"L'IA a échoué ({exc}) : script simple tiré de la source."
+        if script["duree_estimee"] < req.duree * 0.4:
+            note = (note + " " if note else "") + (
+                f"Script court (environ {script['duree_estimee']:.0f} s) : la source contient "
+                "peu de texte. Ajoute des plans, ou colle le texte complet ou une idée détaillée.")
         script["note"] = note
         _update(job_id, state="ok", step="termine", progress=1.0, message="Script prêt",
                 result=script)
