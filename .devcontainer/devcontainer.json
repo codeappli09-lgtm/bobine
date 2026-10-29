@@ -6,8 +6,10 @@
     "memory": "8gb"
   },
   "postCreateCommand": "bash .devcontainer/setup.sh",
-  "postStartCommand": "bash start.sh --fond",
-  "forwardPorts": [8000],
+  "postAttachCommand": "bash start.sh",
+  "forwardPorts": [
+    8000
+  ],
   "portsAttributes": {
     "8000": {
       "label": "Bobine",
@@ -20,7 +22,9 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python"]
+      "extensions": [
+        "ms-python.python"
+      ]
     }
   }
 }
